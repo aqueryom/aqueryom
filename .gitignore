@@ -1,0 +1,75 @@
+#TSI Build file
+tsi-build.properties
+# Java artifacts
+# Compiled classes
+*.class
+# Package files
+*.jar
+*.war
+*.ear
+tsi-core-log4j2.xml
+tsi-web-log4j2.xml
+# Build tools artifacts
+# Ant
+classes/
+build.properties
+# Maven
+target/
+pom.xml.*
+release.properties
+# Gradle
+.gradle
+# SBT
+.history
+
+# IDE artifacts
+# Eclipse
+.classpath
+.externalToolBuilders/
+.metadata/
+.packaging
+.project
+.settings/
+*.jpage
+# IntelliJ IDEA
+.idea
+*.iml
+# NetBeans
+nbproject
+# Apple XCode
+*~.nib
+*.pbxuser
+*.perspective
+*.perspectivev3
+
+# Old SCM tools artifacts
+# Subversion
+.svn/
+# CVS
+CVS/
+
+# Operating systems specific stuff
+# Mac OS X
+.DS_Store
+.Trash/
+# Windows
+Thumbs.db
+
+# Other tools
+# Nettool debugging HTTP proxy
+.nettool-config.properties
+nettool.keystore
+
+# Misc.
+.*~
+*~
+.#*
+~*
+*.bak
+*.swp
+#JS Hint
+.tern-project
+.recommenders
+${sys:catalina.base}/
+
+

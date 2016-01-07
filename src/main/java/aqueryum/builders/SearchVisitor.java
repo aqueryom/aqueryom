@@ -1,27 +1,27 @@
 package aqueryum.builders;
 
-import aqueryum.FieldFactory;
-import aqueryum.recipients.SearchCriteria;
+import aqueryum.PathFinderFactory;
+import aqueryum.incoming.Prescriptions;
 
 public abstract class SearchVisitor {
 	
-    protected final FieldFactory factory;	
+    protected final PathFinderFactory factory;	
 
-    protected SearchVisitor(FieldFactory f) {
+    protected SearchVisitor(PathFinderFactory f) {
         this.factory = f;
     }
    
-    public String visit(SearchCriteria c) {
+    public String visit(Prescriptions c) {
         return this.visit(c, new StringBuilder(256)).toString();
     }
 
-    public String visit(SearchCriteria c, StringBuilder b){
+    public String visit(Prescriptions c, StringBuilder b){
     	return this.visit(c, b, false).toString();	
     }
     
-    public String visit(SearchCriteria c, boolean startsWithWhere){
+    public String visit(Prescriptions c, boolean startsWithWhere){
     	return this.visit(c, new StringBuilder(256), startsWithWhere).toString();	
     }
     
-    public abstract StringBuilder visit(SearchCriteria c, StringBuilder b, boolean startsWithWhere);
+    public abstract StringBuilder visit(Prescriptions c, StringBuilder b, boolean startsWithWhere);
 }
