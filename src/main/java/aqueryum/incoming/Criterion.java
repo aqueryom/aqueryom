@@ -1,11 +1,13 @@
 package aqueryum.incoming;
 
+import java.util.Set;
+
 import aqueryum.PathFinderFactory;
-import aqueryum.QueryFactory;
+import aqueryum.FilterFactory;
 import aqueryum.PathFinder;
 import aqueryum.ValueFormatter;
 
-public class Criterion implements QueryFactory {
+public class Criterion implements FilterFactory {
 
     private String field;
     private Operator op;
@@ -20,7 +22,7 @@ public class Criterion implements QueryFactory {
         this.value = v;
     }
 	
-	public String joinEntities(PathFinderFactory joinFactory) {
+	public Set<String> joinEntities(PathFinderFactory joinFactory) {
 		PathFinder pathFinder = joinFactory.getPathFinder(field);
 		return pathFinder.getJoinEntities(); 
 	}    
@@ -36,7 +38,7 @@ public class Criterion implements QueryFactory {
 		if (op.hasValue()) {
 			ValueFormatter formatter = f.getValueFormatter();
 			condition.append(' ')
-				  .append(formatter.format(value, op));
+				  	 .append(formatter.format(value, op));
 		}
 		return condition;
 	}

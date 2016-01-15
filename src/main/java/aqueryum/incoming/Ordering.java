@@ -32,12 +32,11 @@ public class Ordering {
     }
 
     public String visit(PathFinderFactory factory) {
-    	StringBuilder result = new StringBuilder();
-        PathFinder f = factory.getPathFinder(this.field);
-        result.append(f.getAliasAndField())
-	          .append(' ')
-	          .append(this.order);
-        return result.toString();
+        PathFinder 		pathFinder 	= factory.getPathFinder(this.field);
+    	StringBuilder 	result 		= new StringBuilder(pathFinder.getAliasAndField());
+        return result.append(' ')
+  	          		 .append(this.order)
+  	          		 .toString();
     }
     
     

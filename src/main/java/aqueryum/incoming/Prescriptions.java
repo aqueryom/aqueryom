@@ -3,34 +3,32 @@ package aqueryum.incoming;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-
-import aqueryum.QueryFactory;
+import aqueryum.FilterFactory;
+import aqueryum.PathFinderFactory;
 
 public class Prescriptions extends Criteria {
 	
-	public final static String ORDER_BY_CLAUSE = " ORDER BY ";
-	public final static String ORDER_SEP = ", ";
     
 	public final static String AND_CLAUSE = " AND ";
-	public final static String OR_CLAUSE = " OR ";
+//	public final static String OR_CLAUSE = " OR ";
 	
 	public final static String WHERE_CLAUSE = " WHERE ";
 
-    private Collection<Ordering> orderings = Collections.emptyList();
+    private Collection<Ordering> 	orderings = Collections.emptyList();
     private int max;
 
     public Prescriptions() {
     	super();
     }
     
-    public Prescriptions(Collection<QueryFactory> criteria, Collection<Ordering> orderings) {
+    public Prescriptions(Collection<FilterFactory> criteria, Collection<Ordering> orderings) {
     	super();
         this.setCriteria(criteria);
         this.setOrderings(orderings);
         this.setClause(AND_CLAUSE);
     }
     
-    public Prescriptions(Collection<QueryFactory> criteria, Collection<Ordering> orderings, int max) {
+    public Prescriptions(Collection<FilterFactory> criteria, Collection<Ordering> orderings, int max) {
     	super();
         this.setCriteria(criteria);
         this.setOrderings(orderings);
@@ -38,20 +36,28 @@ public class Prescriptions extends Criteria {
         this.setMax(max);
     }
     
-    public Prescriptions(Collection<QueryFactory> criteria, Collection<Ordering> orderings, String clause) {
+    public Prescriptions(Collection<FilterFactory> criteria, Collection<Ordering> orderings, String clause) {
     	super();
         this.setCriteria(criteria);
         this.setOrderings(orderings);
         this.setClause(clause);
     }
     
-    public Prescriptions(Collection<QueryFactory> criteria, Collection<Ordering> orderings, String clause, int max) {
+    public Prescriptions(Collection<FilterFactory> criteria, Collection<Ordering> orderings, String clause, int max) {
     	super();
         this.setCriteria(criteria);
         this.setOrderings(orderings);
         this.setClause(clause);
         this.setMax(max);
     }
+
+	public String entities(PathFinderFactory factory) {
+		StringBuilder b = new StringBuilder();
+		for (String entity : super.joinEntities(factory)) {
+            b.append(entity);
+        }
+		return b.toString();
+	}
     
     public Collection<Ordering> getOrderings() {
         return this.orderings;

@@ -3,57 +3,59 @@ package aqueryum.incoming;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import aqueryum.PathFinderFactory;
-import aqueryum.QueryFactory;
+import aqueryum.FilterFactory;
 
 
-public class Criteria implements QueryFactory {
+public class Criteria implements FilterFactory {
 
-	private Collection<QueryFactory> criteria = Collections.emptyList();
+	private Collection<FilterFactory> criteria = Collections.emptyList();
 	private String clause;
 
     public Criteria() {
     }
     
-    public Criteria(Collection<QueryFactory> criteria) {
+    public Criteria(Collection<FilterFactory> criteria) {
         this.setCriteria(criteria);
     }
 	
-    public Criteria(Collection<QueryFactory> criteria, String clause) {
+    public Criteria(Collection<FilterFactory> criteria, String clause) {
 		this(criteria);
 		this.clause = clause;
 	}
 	
 	@Override
-	public String filters(PathFinderFactory factory) {
+	public String filters(PathFinderFactory pathFinderFactory) {
 		StringBuilder result = new StringBuilder();
 		String clause = "";
-		for (QueryFactory sc : this.criteria) {
+		for (FilterFactory filterFactory : this.criteria) {
 			result.append(clause);
-			boolean expr = (sc instanceof Criteria);
+			boolean expr = (filterFactory instanceof Criteria);
 			if (expr) { result.append('('); }
-			result.append(sc.filters(factory));
+			result.append(filterFactory.filters(pathFinderFactory));
 			if (expr) { result.append(')'); }
 			clause = this.clause != null ? this.clause : Prescriptions.AND_CLAUSE;
 		}
 		return result.toString();
 	}
 
-	public String joinEntities(PathFinderFactory factory) { 
-		StringBuilder result = new StringBuilder();
-		for (QueryFactory sc : this.criteria) {
-			result.append(sc.joinEntities(factory));
+	public Set<String> joinEntities(PathFinderFactory factory) { 
+	    Set<String> entities =  new HashSet<String>() ;
+		for (FilterFactory filterFactory : this.criteria) {
+			entities.addAll(filterFactory.joinEntities(factory));
 		}
-		return result.toString();
+		return entities;
 	}
 
 
-	public Collection<QueryFactory> getCriteria() {
+	public Collection<FilterFactory> getCriteria() {
 		return criteria;
 	}
 
-	public void setCriteria(Collection<QueryFactory> criteria) {
+	public void setCriteria(Collection<FilterFactory> criteria) {
 		this.criteria = Collections.unmodifiableList(new ArrayList<>(criteria));
 	}
 	
