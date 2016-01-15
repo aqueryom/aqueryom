@@ -1,5 +1,8 @@
 package aqueryum.incoming;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -18,7 +21,7 @@ public class CriterionTest {
 	private static final PathFinder 	PATHFINDER 		= new PathFinder() {
 		@Override public ValueFormatter	getValueFormatter() 		{ return FMT_DATE; }
 		@Override public String 		getAliasAndField() 			{ return "da.id.dBegVali"; }
-		@Override public String 		getJoinEntities() 			{ return ""; }
+		@Override public Set<String> 	getJoinEntities() 			{ return new HashSet<String>(); }
 		@Override public String 		getJoinFilters() 			{ return JOINTURE; }
 	};
 	private static final PathFinderFactory FACTORY 		= new PathFinderFactory() {
@@ -39,10 +42,10 @@ public class CriterionTest {
 
 	@Test
 	public void testJoinEntities() {
-	   	String expected = "";
-		String obtained = sut.joinEntities(FACTORY);    
-		assertNotNull	("sut.joinEntities(FACTORY) NULL", obtained);
-		assertEquals	("sut.joinEntities(FACTORY) KO", expected, obtained);
+		Set<String> expected 	= new HashSet<String>();
+		Set<String> obtained 	= sut.joinEntities(FACTORY);    
+		assertNotNull			("sut.joinEntities(FACTORY) NULL", obtained);
+		assertEquals			("sut.joinEntities(FACTORY) KO", expected, obtained);
 	}
 
 
