@@ -1,7 +1,5 @@
 package aqueryum;
 
-import java.util.Set;
-
 import aqueryum.valueformatters.CharSequenceFormatter;
 import aqueryum.valueformatters.CollectionFormatter;
 import aqueryum.valueformatters.DateFormatter;
@@ -21,6 +19,8 @@ public interface PathFinder
 	 * gives the path of the field 
 	 */
 	String getAliasAndField();
-	Set<String> getJoinEntities();
-	String getJoinFilters();
+	/**
+	 * provides the necessities for joints 
+	 */
+	Jointures getJointures();
 }

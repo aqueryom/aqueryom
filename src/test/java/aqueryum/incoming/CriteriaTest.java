@@ -10,22 +10,27 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import aqueryum.Jointures;
 import aqueryum.PathFinder;
 import aqueryum.PathFinderFactory;
 import aqueryum.FilterFactory;
 import aqueryum.ValueFormatter;
 import aqueryum.incoming.Operator;
+import aqueryum.translaters.JpqlJointures;
 
 public class CriteriaTest {
 	private static final String  		DBEGVALI 		= "2003-07-09";
 	private static final Operator 		OP 				= Operator.le;
 	private static final String 		CONDITION 		= "da.id.dBegVali <= to_date('2003-07-09', 'YYYY-MM-DD')";
-	private static final String 		JOINTURE 		= " AND (da.id.cIntDa = outbnd.cIntDaSecCdt OR da.id.cIntDa = outbnd.cIntDaSecDbt)";
+	private static final Jointures 		JOINTURES 		= new JpqlJointures();//;
 	private static final PathFinder 	PATHFINDER 		= new PathFinder() {
 		@Override public ValueFormatter	getValueFormatter() 		{ return FMT_DATE; }
 		@Override public String 		getAliasAndField() 			{ return "da.id.dBegVali"; }
-		@Override public Set<String> 	getJoinEntities() 			{ return new HashSet<String>(); }
-		@Override public String 		getJoinFilters() 			{ return JOINTURE; }
+		@Override public Jointures 		getJointures() 				{ 
+			JOINTURES.getFilters().add(" AND (da.id.cIntDa = outbnd.cIntDaSecCdt OR da.id.cIntDa = outbnd.cIntDaSecDbt)"); 
+			JOINTURES.getEntities().add(", OutBound outbnd");  
+			return JOINTURES; 
+		}
 	};
 	private static final PathFinderFactory FACTORY 		= new PathFinderFactory() {
 		@Override public PathFinder 	getPathFinder(String name) 	{ return PATHFINDER;	}
@@ -41,7 +46,8 @@ public class CriteriaTest {
 
 	@Test
 	public void testFilters() {
-	   	String expected = CONDITION + JOINTURE;
+	   	Set<String> filters = PATHFINDER.getJointures().getFilters();
+		String expected = CONDITION + filters.toArray()[0];
 		String obtained = sut.filters(FACTORY);   
 		assertNotNull	("sut.filters(FACTORY) NULL", obtained);
 		assertEquals	("sut.filters(FACTORY) KO", expected, obtained);
@@ -49,7 +55,7 @@ public class CriteriaTest {
 
 	@Test
 	public void testJoinEntities() {
-		Set<String> expected 	= new HashSet<String>();
+		Set<String> expected 	= PATHFINDER.getJointures().getEntities();
 		Set<String> obtained 	= sut.joinEntities(FACTORY);    
 		assertNotNull			("sut.joinEntities(FACTORY) NULL", obtained);
 		assertEquals			("sut.joinEntities(FACTORY) KO", expected, obtained);

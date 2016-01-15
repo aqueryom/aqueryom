@@ -1,8 +1,8 @@
 package aqueryum.translaters;
 
-import java.util.HashSet;
 import java.util.Set;
 
+import aqueryum.Jointures;
 import aqueryum.PathFinder;
 import aqueryum.PathFinderFactory;
 import aqueryum.ValueFormatter;
@@ -22,14 +22,15 @@ public enum DancersPathFinder implements PathFinder {
     public final String column;
     public final boolean isKey;
     public final ValueFormatter type;
-    private String join = "";
-	private Set<String> entities = new HashSet<String>();
+    private final Jointures jointures = new JpqlJointures();
+
 
 	private DancersPathFinder(String alias, String column, String entities, String join) {
 		this(alias,  column, false, FMT_CHARSEQ);
-		if (entities != null && !entities.equalsIgnoreCase(""))
-			this.entities.add(entities); 
-		this.join = join;
+		if (entities != null && !entities.equalsIgnoreCase("")) {
+			this.jointures.getEntities().add(entities);
+			this.jointures.getFilters().add(join); 
+		}
 	}
 
 	private DancersPathFinder(String alias, String column, boolean isKey, ValueFormatter type) {
@@ -47,14 +48,10 @@ public enum DancersPathFinder implements PathFinder {
 	}
 
 	@Override
-	public Set<String> getJoinEntities() { 
-		return entities;
+	public Jointures getJointures() {
+		return jointures;
 	}
 
-	@Override
-	public String getJoinFilters() {
-		return join;
-	}
 	public static DancersPathFinder fromString(String name) {
 		DancersPathFinder f = null;
         for (DancersPathFinder v : values()) {

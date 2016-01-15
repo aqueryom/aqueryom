@@ -2,6 +2,7 @@ package aqueryum.incoming;
 
 import java.util.Set;
 
+import aqueryum.Jointures;
 import aqueryum.PathFinderFactory;
 import aqueryum.FilterFactory;
 import aqueryum.PathFinder;
@@ -23,14 +24,22 @@ public class Criterion implements FilterFactory {
     }
 	
 	public Set<String> joinEntities(PathFinderFactory joinFactory) {
-		PathFinder pathFinder = joinFactory.getPathFinder(field);
-		return pathFinder.getJoinEntities(); 
+		return joinFactory.getPathFinder(field)
+						  .getJointures()
+						  .getEntities(); 
 	}    
     
 	public String filters(PathFinderFactory factory) {
-		PathFinder pathFinder = factory.getPathFinder(field);
-		return condition(pathFinder).append(pathFinder.getJoinFilters())
+		PathFinder 	pathFinder 	= factory.getPathFinder(field);
+		Jointures jointures 	= pathFinder.getJointures();
+		String joinFilters = joinFilters(jointures);
+		return condition(pathFinder).append(joinFilters)
 									.toString();
+	}
+
+	public String joinFilters(Jointures jointures) {
+		Set<String> set = jointures.getFilters();
+		return set.iterator().next();
 	}
 
 	public StringBuilder condition(PathFinder f) {

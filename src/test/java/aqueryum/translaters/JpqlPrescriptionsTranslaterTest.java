@@ -2,8 +2,6 @@ package aqueryum.translaters;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -11,6 +9,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import static aqueryum.incoming.Ordering.SortOrder.Ascending;
+import aqueryum.Jointures;
 import aqueryum.PathFinder;
 import aqueryum.PathFinderFactory;
 import aqueryum.FilterFactory;
@@ -26,12 +25,15 @@ public class JpqlPrescriptionsTranslaterTest {
 	private static final Operator 		OP 				= Operator.le;
 	private static final String 		CONDITION 		= "da.id.dBegVali <= to_date('2003-07-09', 'YYYY-MM-DD')";
 	private static final String 		JOINTURE 		= " AND (da.id.cIntDa = outbnd.cIntDaSecCdt OR da.id.cIntDa = outbnd.cIntDaSecDbt)";
+	private static final Jointures 		JOINTURES 		= new JpqlJointures();
 	private static final PathFinder 	PATHFINDER 		= new PathFinder() {
-		HashSet<String> joinEntities = new HashSet<String>();
 		@Override public ValueFormatter	getValueFormatter() 		{ return FMT_DATE; }
 		@Override public String 		getAliasAndField() 			{ return "da.id.dBegVali"; }
-		@Override public Set<String> 	getJoinEntities() 			{ joinEntities.add(", OutBound outbnd"); return joinEntities; }
-		@Override public String 		getJoinFilters() 			{ return JOINTURE; }
+		@Override public Jointures 		getJointures() 				{ 
+			JOINTURES.getFilters().add(JOINTURE); 
+			JOINTURES.getEntities().add(", OutBound outbnd");  
+			return JOINTURES; 
+		}
 	};
 	private static final PathFinderFactory FACTORY 		= new PathFinderFactory() {
 		@Override public PathFinder 	getPathFinder(String name) 	{ return PATHFINDER;	}
