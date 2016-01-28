@@ -50,6 +50,14 @@ public class Criteria implements FilterFactory {
 		return entities;
 	}
 
+	public Set<String> joinFilters(PathFinderFactory factory) {
+	    Set<String> joinFilters =  new HashSet<String>() ;
+//		for (FilterFactory filterFactory : this.criteria) {
+//			joinFilters.addAll(filterFactory.joinEntities(factory));
+//		}
+		return joinFilters;
+	}
+
 
 	public Collection<FilterFactory> getCriteria() {
 		return criteria;
@@ -99,4 +107,10 @@ public class Criteria implements FilterFactory {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Criteria ["
+				+ (criteria != null ? "criteria=" + criteria + ", " : "")
+				+ (clause != null ? "clause=" + clause : "") + "]";
+	}
 }

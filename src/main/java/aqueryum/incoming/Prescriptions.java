@@ -58,6 +58,14 @@ public class Prescriptions extends Criteria {
         }
 		return b.toString();
 	}
+
+	public String filters(PathFinderFactory factory) {
+		StringBuilder b = new StringBuilder();
+		for (String joinFilter : super.joinFilters(factory)) {
+            b.append(joinFilter);
+        }
+		return super.filters(factory);
+	}
     
     public Collection<Ordering> getOrderings() {
         return this.orderings;
@@ -73,10 +81,6 @@ public class Prescriptions extends Criteria {
 
 	public void setMax(int max) {
 		this.max = max;
-	}
-	
-	public String toString(){
-		return "{'criteria' : "+ this.getCriteria().toString() +", 'ordering': "+ this.orderings.toString() +", 'max': "+ this.max +"}";
 	}
 
 	@Override
@@ -106,5 +110,16 @@ public class Prescriptions extends Criteria {
 		} else if (!orderings.equals(other.orderings))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Prescriptions ["
+				+ (orderings != null ? "orderings=" + orderings + ", " : "")
+				+ "max="
+				+ max
+				+ ", "
+				+ (super.toString() != null ? "super=" + super.toString()
+						: "") + "]";
 	}
 }
