@@ -42,20 +42,20 @@ public class Criteria implements FilterFactory {
 		return result.toString();
 	}
 
-	public Set<String> joinEntities(PathFinderFactory factory) { 
-	    Set<String> entities =  new HashSet<String>() ;
-		for (FilterFactory filterFactory : this.criteria) {
-			entities.addAll(filterFactory.joinEntities(factory));
-		}
-		return entities;
-	}
-
 	public Set<String> joinFilters(PathFinderFactory factory) {
 	    Set<String> joinFilters =  new HashSet<String>() ;
 //		for (FilterFactory filterFactory : this.criteria) {
 //			joinFilters.addAll(filterFactory.joinEntities(factory));
 //		}
 		return joinFilters;
+	}
+
+	public Set<String> joinEntities(PathFinderFactory factory) { 
+	    Set<String> entities =  new HashSet<String>() ;
+		for (FilterFactory filterFactory : this.criteria) {
+			entities.addAll(filterFactory.joinEntities(factory));
+		}
+		return entities;
 	}
 
 
