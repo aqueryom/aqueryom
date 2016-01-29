@@ -2,7 +2,6 @@ package aqueryum.incoming;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.BeforeClass;
@@ -46,9 +45,16 @@ public class CriteriaTest {
 
 	@Test
 	public void testFilters() {
-	   	Set<String> filters = PATHFINDER.getJointures().getFilters();
-		String expected = CONDITION + filters.toArray()[0];
+		String expected = CONDITION;
 		String obtained = sut.filters(FACTORY);   
+		assertNotNull	("sut.filters(FACTORY) NULL", obtained);
+		assertEquals	("sut.filters(FACTORY) KO", expected, obtained);
+	}
+
+	@Test
+	public void testJoinFilters() {
+	   	Set<String> expected = PATHFINDER.getJointures().getFilters();
+		Set<String> obtained = sut.joinFilters(FACTORY);   
 		assertNotNull	("sut.filters(FACTORY) NULL", obtained);
 		assertEquals	("sut.filters(FACTORY) KO", expected, obtained);
 	}

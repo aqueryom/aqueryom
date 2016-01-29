@@ -24,10 +24,16 @@ public class JpqlPrescriptionsTranslater extends AbstractPrescriptionsTranslater
 	public StringBuilder translate(Prescriptions prescriptions, StringBuilder b, boolean startsWithWhere) {
        	String entities = prescriptions.entities(this.factory);
 		b.append(entities);
+    	String clause = null;
 		String filters = prescriptions.filters(this.factory);
     	if(filters != null && !filters.trim().equals("")) {
-    		b.append(startsWithWhere ? WHERE_CLAUSE : AND_CLAUSE)
+			clause = startsWithWhere ? WHERE_CLAUSE : AND_CLAUSE;
+			b.append(clause)
     		 .append(filters);
+    	}
+		String joinFilters = prescriptions.joinFiltersToString(this.factory);
+		if(joinFilters != null && !joinFilters.trim().equals("")) {
+    		b.append(joinFilters);
     	}
         return translate(prescriptions.getOrderings(), b);
     }

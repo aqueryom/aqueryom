@@ -3,6 +3,7 @@ package aqueryum.incoming;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+
 import aqueryum.FilterFactory;
 import aqueryum.PathFinderFactory;
 
@@ -29,17 +30,12 @@ public class Prescriptions extends Criteria {
     }
     
     public Prescriptions(Collection<FilterFactory> criteria, Collection<Ordering> orderings, int max) {
-    	super();
-        this.setCriteria(criteria);
-        this.setOrderings(orderings);
-        this.setClause(AND_CLAUSE);
+        this(criteria,orderings);
         this.setMax(max);
     }
     
     public Prescriptions(Collection<FilterFactory> criteria, Collection<Ordering> orderings, String clause) {
-    	super();
-        this.setCriteria(criteria);
-        this.setOrderings(orderings);
+        this(criteria,orderings);
         this.setClause(clause);
     }
     
@@ -59,11 +55,15 @@ public class Prescriptions extends Criteria {
 		return b.toString();
 	}
 
-	public String filters(PathFinderFactory factory) {
-		StringBuilder b = new StringBuilder();
+	public String joinFiltersToString(PathFinderFactory factory) { 
+		StringBuilder filters = new StringBuilder();
 		for (String joinFilter : super.joinFilters(factory)) {
-            b.append(joinFilter);
+            filters.append(joinFilter);
         }
+		return filters.toString();
+	}
+
+	public String filters(PathFinderFactory factory) {
 		return super.filters(factory);
 	}
     

@@ -28,12 +28,21 @@ public class Criterion implements FilterFactory {
 						  .getJointures()
 						  .getEntities(); 
 	}    
-    
+
+	@Override
+	public Set<String> joinFilters(PathFinderFactory joinFactory) {
+		return joinFactory.getPathFinder(field)
+				  .getJointures()
+				  .getFilters()	
+				  ; 
+	}
+   
 	public String filters(PathFinderFactory factory) {
 		PathFinder 	pathFinder 	= factory.getPathFinder(field);
-		Jointures 	jointures 	= pathFinder.getJointures();
-		return condition(pathFinder).append(joinFilters(jointures))
-									.toString();
+		return condition(pathFinder).toString();
+//		Jointures 	jointures 	= pathFinder.getJointures();
+//		return condition(pathFinder).append(joinFilters(jointures))
+//									.toString();
 	}
 
 	public String joinFilters(Jointures jointures) {

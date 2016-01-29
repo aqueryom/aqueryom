@@ -40,7 +40,7 @@ public class CriterionTest {
 
 	@Test
 	public void testFilters() {
-	   	String expected = CONDITION + JOINTURE;
+	   	String expected = CONDITION;
 		String obtained = sut.filters(FACTORY);   
 		assertNotNull	("sut.filters(FACTORY) NULL", obtained);
 		assertEquals	("sut.filters(FACTORY) KO", expected, obtained);

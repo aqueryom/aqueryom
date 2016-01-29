@@ -44,11 +44,12 @@ public class Criteria implements FilterFactory {
 
 	public Set<String> joinFilters(PathFinderFactory factory) {
 	    Set<String> joinFilters =  new HashSet<String>() ;
-//		for (FilterFactory filterFactory : this.criteria) {
-//			joinFilters.addAll(filterFactory.joinEntities(factory));
-//		}
+		for (FilterFactory filterFactory : this.criteria) {
+			joinFilters.addAll(filterFactory.joinFilters(factory));
+		}
 		return joinFilters;
 	}
+
 
 	public Set<String> joinEntities(PathFinderFactory factory) { 
 	    Set<String> entities =  new HashSet<String>() ;
