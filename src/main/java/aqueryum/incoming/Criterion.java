@@ -40,9 +40,6 @@ public class Criterion implements FilterFactory {
 	public String filters(PathFinderFactory factory) {
 		PathFinder 	pathFinder 	= factory.getPathFinder(field);
 		return condition(pathFinder).toString();
-//		Jointures 	jointures 	= pathFinder.getJointures();
-//		return condition(pathFinder).append(joinFilters(jointures))
-//									.toString();
 	}
 
 	public String joinFilters(Jointures jointures) {
